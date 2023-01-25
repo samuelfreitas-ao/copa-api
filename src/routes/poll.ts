@@ -6,7 +6,7 @@ const pollService = new PollService()
 
 export async function pollRoutes(fastify: FastifyInstance) {
   fastify.post('/polls', authJWTOnRequest, pollService.store)
-  fastify.get('/polls', authJWTOnRequest, pollService.index)
+  fastify.get('/polls', authJWTOnRequest, pollService.listParticipatingPolls)
   fastify.get('/polls/count', authJWTOnRequest, pollService.count)
   fastify.post('/polls/:id/join', authJWTOnRequest, pollService.join)
 }
