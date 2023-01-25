@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
+import jwt from '@fastify/jwt'
 
 import { pollRoutes } from './routes/poll'
 import { gameRoutes } from './routes/games'
@@ -11,6 +12,8 @@ async function bootstrap() {
   const fastify = Fastify({ logger: true })
 
   await fastify.register(cors, { origin: true })
+
+  await fastify.register(jwt, { secret: 'copa' })
 
   await fastify.register(authRoutes)
   await fastify.register(gameRoutes)
