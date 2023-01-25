@@ -8,5 +8,6 @@ export async function pollRoutes(fastify: FastifyInstance) {
   fastify.post('/polls', authJWTOnRequest, pollService.store)
   fastify.get('/polls', authJWTOnRequest, pollService.listParticipatingPolls)
   fastify.get('/polls/count', authJWTOnRequest, pollService.count)
-  fastify.post('/polls/:id/join', authJWTOnRequest, pollService.join)
+  fastify.post('/polls/join', authJWTOnRequest, pollService.join)
+  fastify.get('/polls/:id', authJWTOnRequest, pollService.show)
 }

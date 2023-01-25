@@ -77,6 +77,45 @@ export class PollService {
     return { polls }
   }
 
+  async show(request: FastifyRequest) {
+    const getPoolParams = z.object({
+      id: z.string(),
+    })
+
+    const { id } = getPoolParams.parse(request.params)
+
+    const poll = await prisma.poll.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        _count: {
+          select: {
+            participants: true,
+          },
+        },
+        participants: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                avatarUrl: true,
+              },
+            },
+          },
+          take: 4,
+        },
+        owner: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+    return { poll }
+  }
+
   async join(request: FastifyRequest, response: FastifyReply) {
     const joinPoolBody = z.object({
       code: z.string(),
