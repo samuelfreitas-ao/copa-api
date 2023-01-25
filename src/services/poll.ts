@@ -40,6 +40,43 @@ export class PollService {
     return reply.status(201).send({ code })
   }
 
+  async listParticipatingPolls(request: FastifyRequest) {
+    const polls = await prisma.poll.findMany({
+      where: {
+        participants: {
+          some: {
+            userId: request.user.sub,
+          },
+        },
+      },
+      include: {
+        _count: {
+          select: {
+            participants: true,
+          },
+        },
+        participants: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                avatarUrl: true,
+              },
+            },
+          },
+          take: 4,
+        },
+        owner: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+    return { polls }
+  }
+
   async join(request: FastifyRequest, response: FastifyReply) {
     const joinPoolBody = z.object({
       code: z.string(),
