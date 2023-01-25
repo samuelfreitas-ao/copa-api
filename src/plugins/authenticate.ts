@@ -1,5 +1,7 @@
 import { FastifyRequest } from 'fastify'
 
-export async function authenticate(request: FastifyRequest) {
+async function authenticate(request: FastifyRequest) {
   await request.jwtVerify()
 }
+
+export const authJWTOnRequest = { onRequest: [authenticate] }

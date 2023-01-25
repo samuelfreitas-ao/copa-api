@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
-import { authenticate } from '../plugins/authenticate'
+import { authJWTOnRequest } from '../plugins/authenticate'
 
 export async function authRoutes(fastify: FastifyInstance) {
-  fastify.get('/me', { onRequest: [authenticate] }, async (request) => {
+  fastify.get('/me', authJWTOnRequest, async (request) => {
     return { user: request.user }
   })
 
