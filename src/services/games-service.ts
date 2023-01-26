@@ -1,8 +1,29 @@
-import { FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 
 export class GameService {
+  async store(request: FastifyRequest, reply: FastifyReply) {
+    const getGameBody = z.object({
+      firstTeamCountryCode: z.string().max(2).min(2),
+      secondTeamCountryCode: z.string().max(2).min(2),
+    })
+
+    const { firstTeamCountryCode, secondTeamCountryCode } = getGameBody.parse(
+      request.body
+    )
+
+    await prisma.game.create({
+      data: {
+        firstTeamCountryCode,
+        secondTeamCountryCode,
+      },
+    })
+    return reply.status(201).send({
+      message: 'Game created successfully.',
+    })
+  }
+
   async index(request: FastifyRequest) {
     const getPollParams = z.object({
       pollId: z.string(),
