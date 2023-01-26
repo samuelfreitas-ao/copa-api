@@ -1,5 +1,4 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../lib/prisma'
 import { authJWTOnRequest } from '../plugins/authenticate'
 import { UserService } from '../services/user-service'
 
