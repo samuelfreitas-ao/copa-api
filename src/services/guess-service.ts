@@ -50,7 +50,7 @@ export class GuessService {
 
     if (guess) {
       return reply.status(400).send({
-        message: 'You already sent a guess to this game on this poll',
+        message: 'You already sent a guess to this game on this poll.',
       })
     }
 

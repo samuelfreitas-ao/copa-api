@@ -138,13 +138,13 @@ export class PollService {
 
     if (!poll) {
       return response.status(400).send({
-        message: 'Poll not found',
+        message: 'Poll not found.',
       })
     }
 
     if (poll.participants.length > 0) {
       return response.status(400).send({
-        message: 'You alread joined this poll',
+        message: 'You alread joined this poll.',
       })
     }
 
