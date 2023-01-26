@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify'
 import { authJWTOnRequest } from '../plugins/authenticate'
-import { PollService } from '../services/poll'
+import { PollService } from '../services/poll-service'
 
 const pollService = new PollService()
 

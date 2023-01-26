@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify'
 import { prisma } from '../lib/prisma'
 import { authJWTOnRequest } from '../plugins/authenticate'
+import { UserService } from '../services/user-service'
+
+const userService = new UserService()
 
 export async function userRoutes(fastify: FastifyInstance) {
-  fastify.get('/users/count', authJWTOnRequest, async () => {
-    const count = await prisma.user.count()
-    return { count }
-  })
+  fastify.get('/users', authJWTOnRequest, userService.index)
+  fastify.get('/users/count', authJWTOnRequest, userService.count)
 }
