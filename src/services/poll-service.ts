@@ -5,11 +5,11 @@ import { prisma } from '../lib/prisma'
 
 export class PollService {
   async store(request: FastifyRequest, reply: FastifyReply) {
-    const createPoolBody = z.object({
+    const createPollBody = z.object({
       title: z.string(),
     })
 
-    const { title } = createPoolBody.parse(request.body)
+    const { title } = createPollBody.parse(request.body)
     const generate = new ShortUniqueId({ length: 6 })
     const code = String(generate()).toUpperCase()
 
@@ -78,11 +78,11 @@ export class PollService {
   }
 
   async show(request: FastifyRequest) {
-    const getPoolParams = z.object({
+    const getPollParams = z.object({
       id: z.string(),
     })
 
-    const { id } = getPoolParams.parse(request.params)
+    const { id } = getPollParams.parse(request.params)
 
     const poll = await prisma.poll.findUnique({
       where: {
@@ -117,11 +117,11 @@ export class PollService {
   }
 
   async join(request: FastifyRequest, response: FastifyReply) {
-    const joinPoolBody = z.object({
+    const joinPollBody = z.object({
       code: z.string(),
     })
 
-    const { code } = joinPoolBody.parse(request.body)
+    const { code } = joinPollBody.parse(request.body)
 
     const userId = request.user.sub
 
