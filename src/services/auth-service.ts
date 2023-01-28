@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma'
+import { TokenUtils } from '../utils/token-utils'
 
 export class AuthService {
   async login(
@@ -66,5 +67,14 @@ export class AuthService {
 
   async me(request: FastifyRequest) {
     return { user: request.user }
+  }
+
+  async logout(request: FastifyRequest, reply: FastifyReply) {
+    const token = request.headers.authorization?.split(' ')[1]
+    TokenUtils.block(String(token))
+
+    return reply.status(200).send({
+      message: 'Sessão terminada com sucesso.',
+    })
   }
 }

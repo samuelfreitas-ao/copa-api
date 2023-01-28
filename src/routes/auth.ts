@@ -5,8 +5,10 @@ import { AuthService } from '../services/auth-service'
 const authService = new AuthService()
 
 export async function authRoutes(fastify: FastifyInstance) {
-  fastify.get('/me', authJWTOnRequest, authService.me)
-  fastify.post('/users', async (request, reply) =>
+  fastify.post('/login', async (request, reply) =>
     authService.login(request, reply, fastify)
   )
+  fastify.get('/me', authJWTOnRequest, authService.me)
+
+  fastify.post('/logout', authJWTOnRequest, authService.logout)
 }
